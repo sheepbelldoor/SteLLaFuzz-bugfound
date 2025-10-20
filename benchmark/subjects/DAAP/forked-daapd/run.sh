@@ -41,14 +41,8 @@ if $(strstr $FUZZER "afl") || $(strstr $FUZZER "llm") || $(strstr $FUZZER "stell
   INPUTS=${INPUTS:-${WORKDIR}"/in-daap"}
 
   #Step-1. Do Fuzzing
-  if [ $FUZZER = "chatafl-bin" ]; then
-    pip install pydantic openai
-    python3 enrich_corpus.py -o ${WORKDIR}/in-daap -p DAAP
-  fi
   if [ $FUZZER = "stellafuzz" ]; then
     pip install pydantic openai
-    cd ${WORKDIR}
-    python3 stellafuzz.py -o ${WORKDIR}/in-daap -p DAAP -s ${WORKDIR}/in-daap
   fi
   #Move to fuzzing folder
   cd $WORKDIR

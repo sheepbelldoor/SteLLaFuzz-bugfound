@@ -25,7 +25,6 @@ if $(strstr $FUZZER "afl") || $(strstr $FUZZER "llm") || $(strstr $FUZZER "stell
   #Step-1. Do Fuzzing
   if [ $FUZZER = "stellafuzz" ]; then
     pip install pydantic openai
-    python3 stellafuzz.py -o ${WORKDIR}/in-smtp -p SMTP -s ${WORKDIR}/in-smtp
   fi
   #Move to fuzzing folder
   cd $WORKDIR/${TARGET_DIR}

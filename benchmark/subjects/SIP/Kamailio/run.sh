@@ -25,8 +25,6 @@ if $(strstr $FUZZER "afl") || $(strstr $FUZZER "llm") || $(strstr $FUZZER "stell
   #Step-1. Do Fuzzing
   if [ $FUZZER = "stellafuzz" ]; then
     pip install pydantic openai
-    cd ${WORKDIR}
-    python3 stellafuzz.py -o ${WORKDIR}/in-sip -p SIP -s ${WORKDIR}/in-sip
   fi
   #Move to fuzzing folder
   export KAMAILIO_MODULES="src/modules"

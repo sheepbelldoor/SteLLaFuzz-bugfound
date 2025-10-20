@@ -105,7 +105,8 @@ EXP_ST u8 *in_dir,                    /* Input directory with test cases  */
           *in_bitmap,                 /* Input bitmap                     */
           *doc_path,                  /* Path to documentation dir        */
           *target_path,               /* Path to target binary            */
-          *orig_cmdline;              /* Original command line            */
+          *orig_cmdline,              /* Original command line            */
+          *target_protocol;           /* Target protocol                  */
 
 EXP_ST u32 exec_tmout = EXEC_TIMEOUT; /* Configurable exec timeout (ms)   */
 static u32 hang_tmout = EXEC_TIMEOUT; /* Timeout used for hang det (ms)   */
@@ -9100,6 +9101,7 @@ int main(int argc, char** argv) {
         }
 
         protocol_selected = 1;
+        target_protocol = optarg;
 
         break;
 
@@ -9217,6 +9219,14 @@ int main(int argc, char** argv) {
 
   check_crash_handling();
   check_cpu_governor();
+
+  // HERE!!
+  if (target_protocol) {
+    u8 *cmd = alloc_printf("python3 /home/ubuntu/stellafuzz/SteLLaFuzz/stellafuzz.py -o %s -s %s -p %s",
+      in_dir, 
+      in_dir, 
+      target_protocol);
+  }
 
   setup_post();
   setup_shm();
