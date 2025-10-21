@@ -9221,11 +9221,14 @@ int main(int argc, char** argv) {
   check_cpu_governor();
 
   // HERE!!
-  if (target_protocol) {
+  if (protocol_selected) {
     u8 *cmd = alloc_printf("python3 /home/ubuntu/stellafuzz/SteLLaFuzz/stellafuzz.py -o %s -s %s -p %s",
       in_dir, 
       in_dir, 
       target_protocol);
+    
+    if (system(cmd) < 0) PFATAL("system() failed to run stellafuzz");
+    ck_free(cmd);
   }
 
   setup_post();
