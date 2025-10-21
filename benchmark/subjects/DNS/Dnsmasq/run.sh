@@ -24,7 +24,7 @@ if $(strstr $FUZZER "afl") || $(strstr $FUZZER "llm") || $(strstr $FUZZER "stell
 
   #Step-1. Do Fuzzing
   if [ $FUZZER = "stellafuzz" ]; then
-    pip install pydantic openai
+    pip install pydantic openai==2.0.0
   fi
   #Move to fuzzing folder
   cd $WORKDIR/${TARGET_DIR}/src
