@@ -24,13 +24,13 @@ SteLLaFuzz
 ├── aflnet: a modified version of AFLNet which outputs states and state transitions 
 ├── analyse.sh: analysis script 
 ├── benchmark: a modified version of ProfuzzBench
-│   └── subjects/<subject>
+├── clean.sh: clean script
+├── ChatAFL: the source code of ChatAFL
+├── SteLLaFuzz: the source code of SteLLaFuzz
+│   └── SteLLaFuzz
 │       ├── LLM: LLM-related files of SteLLaFuzz
 │       ├── utility: utility file of SteLLaFuzz
 │       └── stellafuzz.py: SteLLaFuzz implementation for the subject
-├── clean.sh: clean script
-├── ChatAFL: the source code of ChatAFL
-├── SteLLaFuzz: the source code of SteLLaFuzz, same as aflnet
 ├── deps.sh: the script to install dependencies, asks for the password when executed
 ├── README: this file
 ├── run.sh: the execution script to run fuzzers on subjects and collect data
