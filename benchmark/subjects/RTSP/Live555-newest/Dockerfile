@@ -88,8 +88,8 @@ ENV ASAN_OPTIONS='abort_on_error=1:symbolize=0:detect_leaks=0:detect_stack_use_a
 #     AFL_USE_ASAN=1 make clean all $MAKE_OPT || make all
 
 RUN cd $WORKDIR && \
-    git clone https://github.com/rgaufman/live555.git && \
-    cd live555 && \
+    git clone https://github.com/rgaufman/live555.git live && \
+    cd live && \
     git checkout f4a4e8f && \
     patch -p1 < ${WORKDIR}/fuzzing.patch && \
     ./genMakefiles linux && \
@@ -100,17 +100,17 @@ RUN cd ${WORKDIR}/live/testProgs && \
     cp ${AFLNET}/tutorials/live555/sample_media_sources/*.* ./
 
 # Download and compile Live555 for coverage analysis
-RUN cd $WORKDIR && \
-    mkdir ${WORKDIR}/live-gcov && \
-    tar -zxvf live.2023.05.10.tar.gz -C ${WORKDIR}/live-gcov --strip-components=1 && \
-    cd live-gcov && \
-    patch -p1 < ${WORKDIR}/gcov.patch && \
-    ./genMakefiles linux && \
-    make CFLAGS="-fprofile-arcs -ftest-coverage" CPPFLAGS="-fprofile-arcs -ftest-coverage" CXXFLAGS="-fprofile-arcs -ftest-coverage" LDFLAGS="-fprofile-arcs -ftest-coverage" clean all
+# RUN cd $WORKDIR && \
+#     mkdir ${WORKDIR}/live-gcov && \
+#     tar -zxvf live.2023.05.10.tar.gz -C ${WORKDIR}/live-gcov --strip-components=1 && \
+#     cd live-gcov && \
+#     patch -p1 < ${WORKDIR}/gcov.patch && \
+#     ./genMakefiles linux && \
+#     make CFLAGS="-fprofile-arcs -ftest-coverage" CPPFLAGS="-fprofile-arcs -ftest-coverage" CXXFLAGS="-fprofile-arcs -ftest-coverage" LDFLAGS="-fprofile-arcs -ftest-coverage" clean all
 
-# Set up Live555 for coverage analysis
-RUN cd ${WORKDIR}/live-gcov/testProgs && \
-    cp ${AFLNET}/tutorials/live555/sample_media_sources/*.* ./
+# # Set up Live555 for coverage analysis
+# RUN cd ${WORKDIR}/live-gcov/testProgs && \
+#     cp ${AFLNET}/tutorials/live555/sample_media_sources/*.* ./
 
 COPY --chown=ubuntu:ubuntu kill-server.sh ${WORKDIR}/kill-server
 COPY --chown=ubuntu:ubuntu in-rtsp ${WORKDIR}/in-rtsp

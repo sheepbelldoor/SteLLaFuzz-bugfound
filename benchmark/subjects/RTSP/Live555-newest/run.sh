@@ -32,30 +32,30 @@ if $(strstr $FUZZER "afl") || $(strstr $FUZZER "llm") || $(strstr $FUZZER "stell
 
   STATUS=$?
 
-  #Step-2. Collect code coverage over time
-  #Move to gcov folder
-  cd $WORKDIR/live-gcov/testProgs
+  # #Step-2. Collect code coverage over time
+  # #Move to gcov folder
+  # cd $WORKDIR/live-gcov/testProgs
 
-  #The last argument passed to cov_script should be 0 if the fuzzer is afl/nwe and it should be 1 if the fuzzer is based on aflnet
-  #0: the test case is a concatenated message sequence -- there is no message boundary
-  #1: the test case is a structured file keeping several request messages
-  if [ $FUZZER == "aflnwe" ]; then
-    cov_script ${WORKDIR}/${TARGET_DIR}/testProgs/${OUTDIR}/ 8554 ${SKIPCOUNT} ${WORKDIR}/${TARGET_DIR}/testProgs/${OUTDIR}/cov_over_time.csv 0
-  else
-    cov_script ${WORKDIR}/${TARGET_DIR}/testProgs/${OUTDIR}/ 8554 ${SKIPCOUNT} ${WORKDIR}/${TARGET_DIR}/testProgs/${OUTDIR}/cov_over_time.csv 1
-  fi
+  # #The last argument passed to cov_script should be 0 if the fuzzer is afl/nwe and it should be 1 if the fuzzer is based on aflnet
+  # #0: the test case is a concatenated message sequence -- there is no message boundary
+  # #1: the test case is a structured file keeping several request messages
+  # if [ $FUZZER == "aflnwe" ]; then
+  #   cov_script ${WORKDIR}/${TARGET_DIR}/testProgs/${OUTDIR}/ 8554 ${SKIPCOUNT} ${WORKDIR}/${TARGET_DIR}/testProgs/${OUTDIR}/cov_over_time.csv 0
+  # else
+  #   cov_script ${WORKDIR}/${TARGET_DIR}/testProgs/${OUTDIR}/ 8554 ${SKIPCOUNT} ${WORKDIR}/${TARGET_DIR}/testProgs/${OUTDIR}/cov_over_time.csv 1
+  # fi
 
-  cd $WORKDIR/live-gcov
-  #copy .hh files since gcovr could not detect them
-  for f in BasicUsageEnvironment liveMedia groupsock UsageEnvironment; do
-    echo $f
-    cp $f/include/*.hh $f/
-  done
-  cd testProgs
+  # cd $WORKDIR/live-gcov
+  # #copy .hh files since gcovr could not detect them
+  # for f in BasicUsageEnvironment liveMedia groupsock UsageEnvironment; do
+  #   echo $f
+  #   cp $f/include/*.hh $f/
+  # done
+  # cd testProgs
 
-  gcovr -r .. --html --html-details -o index.html
-  mkdir ${WORKDIR}/${TARGET_DIR}/testProgs/${OUTDIR}/cov_html/
-  cp *.html ${WORKDIR}/live/testProgs/${OUTDIR}/cov_html/
+  # gcovr -r .. --html --html-details -o index.html
+  # mkdir ${WORKDIR}/${TARGET_DIR}/testProgs/${OUTDIR}/cov_html/
+  # cp *.html ${WORKDIR}/live/testProgs/${OUTDIR}/cov_html/
 
   if [ $FUZZER = "chatafl" ]; then
     cp -r ${WORKDIR}/answers ${WORKDIR}/${TARGET_DIR}/live/testProgs/${OUTDIR}/answers/
