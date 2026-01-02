@@ -59,8 +59,8 @@ COPY --chown=ubuntu:ubuntu stellafuzz stellafuzz
 RUN cd stellafuzz && \
     make clean all $MAKE_OPT && \
     cd llvm_mode && make $MAKE_OPT
-    
-# Set up environment variables for AFLNet
+
+    # Set up environment variables for AFLNet
 ENV WORKDIR="/home/ubuntu/experiments"
 ENV AFLNET="/home/ubuntu/aflnet"
 ENV PATH="${PATH}:${AFLNET}:/home/ubuntu/.local/bin:${WORKDIR}"
@@ -73,49 +73,37 @@ ENV OPENAI_API_KEY="1"
 
 RUN mkdir $WORKDIR
 
-COPY --chown=ubuntu:ubuntu fuzzing.patch ${WORKDIR}/fuzzing.patch
-COPY --chown=ubuntu:ubuntu gcov.patch ${WORKDIR}/gcov.patch
-# COPY --chown=ubuntu:ubuntu live.2023.05.10.tar.gz ${WORKDIR}/live.2023.05.10.tar.gz
+USER root
+RUN apt-get -y update && apt-get -y install --fix-missing dnsutils
+
+COPY --chown=ubuntu:ubuntu dnsmasq.patch ${WORKDIR}/dnsmasq.patch
 
 # Set up environment variables for ASAN
 ENV ASAN_OPTIONS='abort_on_error=1:symbolize=0:detect_leaks=0:detect_stack_use_after_return=1:detect_container_overflow=0:poison_array_cookie=0:malloc_fill_byte=0:max_malloc_fill_size=16777216'
 
-# Download and compile Live555 for fuzzing
-# RUN cd $WORKDIR && \
-#     tar -zxvf live.2023.05.10.tar.gz && \
-#     cd live && \
-#     patch -p1 < ${WORKDIR}/fuzzing.patch && \
-#     ./genMakefiles linux && \
-#     AFL_USE_ASAN=1 make clean all $MAKE_OPT || make all
-
+# Download and compile Dnsmasq for fuzzing
 RUN cd $WORKDIR && \
-    git clone https://github.com/rgaufman/live555.git live && \
-    cd live && \
-    git checkout f4a4e8f && \
-    patch -p1 < ${WORKDIR}/fuzzing.patch && \
-    ./genMakefiles linux && \
-    AFL_USE_ASAN=1 make clean all $MAKE_OPT || make all
+    git clone http://thekelleys.org.uk/git/dnsmasq.git && \
+    cd dnsmasq && \
+    git checkout v2.73rc6 && \
+    patch -p1 < ${WORKDIR}/dnsmasq.patch && \
+    AFL_USE_ASAN=1 CC=afl-clang-fast make $MAKE_OPT
 
-# Set up Live555 for fuzzing
-RUN cd ${WORKDIR}/live/testProgs && \
-    cp ${AFLNET}/tutorials/live555/sample_media_sources/*.* ./
+# Download and compile Dnsmasq for coverage analysis
+RUN cd $WORKDIR && \
+    git clone http://thekelleys.org.uk/git/dnsmasq.git dnsmasq-gcov && \
+    cd dnsmasq-gcov && \
+    git checkout v2.73rc6 && \
+    patch -p1 < ${WORKDIR}/dnsmasq.patch && \
+    make CFLAGS="-fprofile-arcs -ftest-coverage" LDFLAGS="-fprofile-arcs -ftest-coverage" $MAKE_OPT
 
-# Download and compile Live555 for coverage analysis
-# RUN cd $WORKDIR && \
-#     mkdir ${WORKDIR}/live-gcov && \
-#     tar -zxvf live.2023.05.10.tar.gz -C ${WORKDIR}/live-gcov --strip-components=1 && \
-#     cd live-gcov && \
-#     patch -p1 < ${WORKDIR}/gcov.patch && \
-#     ./genMakefiles linux && \
-#     make CFLAGS="-fprofile-arcs -ftest-coverage" CPPFLAGS="-fprofile-arcs -ftest-coverage" CXXFLAGS="-fprofile-arcs -ftest-coverage" LDFLAGS="-fprofile-arcs -ftest-coverage" clean all
 
-# # Set up Live555 for coverage analysis
-# RUN cd ${WORKDIR}/live-gcov/testProgs && \
-#     cp ${AFLNET}/tutorials/live555/sample_media_sources/*.* ./
-
-COPY --chown=ubuntu:ubuntu kill-server.sh ${WORKDIR}/kill-server
-COPY --chown=ubuntu:ubuntu in-rtsp ${WORKDIR}/in-rtsp
-COPY --chown=ubuntu:ubuntu rtsp.dict ${WORKDIR}/rtsp.dict
+COPY --chown=ubuntu:ubuntu in-dns ${WORKDIR}/in-dns
+COPY --chown=ubuntu:ubuntu dns.dict ${WORKDIR}/dns.dict
 COPY --chown=ubuntu:ubuntu cov_script.sh ${WORKDIR}/cov_script
 COPY --chown=ubuntu:ubuntu run.sh ${WORKDIR}/run
+COPY --chown=ubuntu:ubuntu dnsmasq.conf ${WORKDIR}/dnsmasq.conf
 COPY --chown=ubuntu:ubuntu run-command.txt ${WORKDIR}/run-command.txt
+
+RUN cp ${WORKDIR}/dnsmasq.conf /etc/ && \
+    echo address=/test.com/5.5.5.5 | sudo tee -a /etc/dnsmasq.conf

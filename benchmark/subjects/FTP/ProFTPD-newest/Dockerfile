@@ -71,51 +71,45 @@ ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1 \
 ENV OPENAI_API_KEY="1"
 
 
-RUN mkdir $WORKDIR
-
-COPY --chown=ubuntu:ubuntu fuzzing.patch ${WORKDIR}/fuzzing.patch
-COPY --chown=ubuntu:ubuntu gcov.patch ${WORKDIR}/gcov.patch
-# COPY --chown=ubuntu:ubuntu live.2023.05.10.tar.gz ${WORKDIR}/live.2023.05.10.tar.gz
-
 # Set up environment variables for ASAN
 ENV ASAN_OPTIONS='abort_on_error=1:symbolize=0:detect_leaks=0:detect_stack_use_after_return=1:detect_container_overflow=0:poison_array_cookie=0:malloc_fill_byte=0:max_malloc_fill_size=16777216'
 
-# Download and compile Live555 for fuzzing
-# RUN cd $WORKDIR && \
-#     tar -zxvf live.2023.05.10.tar.gz && \
-#     cd live && \
-#     patch -p1 < ${WORKDIR}/fuzzing.patch && \
-#     ./genMakefiles linux && \
-#     AFL_USE_ASAN=1 make clean all $MAKE_OPT || make all
 
-RUN cd $WORKDIR && \
-    git clone https://github.com/rgaufman/live555.git live && \
-    cd live && \
-    git checkout f4a4e8f && \
-    patch -p1 < ${WORKDIR}/fuzzing.patch && \
-    ./genMakefiles linux && \
-    AFL_USE_ASAN=1 make clean all $MAKE_OPT || make all
+RUN mkdir $WORKDIR
 
-# Set up Live555 for fuzzing
-RUN cd ${WORKDIR}/live/testProgs && \
-    cp ${AFLNET}/tutorials/live555/sample_media_sources/*.* ./
+# Use "--enable-devel=...:coredump:stacktrace" for debugging
 
-# Download and compile Live555 for coverage analysis
-# RUN cd $WORKDIR && \
-#     mkdir ${WORKDIR}/live-gcov && \
-#     tar -zxvf live.2023.05.10.tar.gz -C ${WORKDIR}/live-gcov --strip-components=1 && \
-#     cd live-gcov && \
-#     patch -p1 < ${WORKDIR}/gcov.patch && \
-#     ./genMakefiles linux && \
-#     make CFLAGS="-fprofile-arcs -ftest-coverage" CPPFLAGS="-fprofile-arcs -ftest-coverage" CXXFLAGS="-fprofile-arcs -ftest-coverage" LDFLAGS="-fprofile-arcs -ftest-coverage" clean all
+# Set up ProFTPD for fuzzing
+RUN cd ${WORKDIR} && \
+    git clone https://github.com/proftpd/proftpd.git && \
+    cd proftpd && \
+    git checkout 61e621e743346 && \
+    CC="afl-clang-fast" CXX="afl-clang-fast++" ./configure --enable-devel=nodaemon:nofork && \
+    AFL_USE_ASAN=1 make $MAKE_OPT
 
-# # Set up Live555 for coverage analysis
-# RUN cd ${WORKDIR}/live-gcov/testProgs && \
-#     cp ${AFLNET}/tutorials/live555/sample_media_sources/*.* ./
+# Set up ProFTPD for coverage analysis
+RUN cd ${WORKDIR} && \
+    git clone https://github.com/proftpd/proftpd.git proftpd-gcov && \
+    cd proftpd-gcov && \
+    git checkout 61e621e743346 && \
+    CFLAGS="-fprofile-arcs -ftest-coverage" CPPFLAGS="-fprofile-arcs -ftest-coverage" CXXFLAGS="-fprofile-arcs -ftest-coverage" LDFLAGS="-fprofile-arcs -ftest-coverage" ./configure --enable-devel=nodaemon:nofork && \
+    make $MAKE_OPT
 
-COPY --chown=ubuntu:ubuntu kill-server.sh ${WORKDIR}/kill-server
-COPY --chown=ubuntu:ubuntu in-rtsp ${WORKDIR}/in-rtsp
-COPY --chown=ubuntu:ubuntu rtsp.dict ${WORKDIR}/rtsp.dict
-COPY --chown=ubuntu:ubuntu cov_script.sh ${WORKDIR}/cov_script
+
+COPY --chown=ubuntu:ubuntu basic.conf ${WORKDIR}/
+COPY --chown=ubuntu:ubuntu in-ftp ${WORKDIR}/in-ftp
+COPY --chown=ubuntu:ubuntu ftp.dict ${WORKDIR}/ftp.dict
 COPY --chown=ubuntu:ubuntu run.sh ${WORKDIR}/run
+COPY --chown=ubuntu:ubuntu clean.sh ${WORKDIR}/clean
+COPY --chown=ubuntu:ubuntu cov_script.sh ${WORKDIR}/cov_script
 COPY --chown=ubuntu:ubuntu run-command.txt ${WORKDIR}/run-command.txt
+RUN mkdir /home/ubuntu/ftpshare && \
+    chown -R ubuntu:ubuntu /home/ubuntu/ftpshare
+
+
+# Switch default user to root
+USER root
+WORKDIR /home/ubuntu
+
+# For debugging purposes
+RUN apt-get -y install ftp

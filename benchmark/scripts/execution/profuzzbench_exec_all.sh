@@ -402,6 +402,81 @@ do
 
         fi
 
+##### DNS-newest #####
+
+        if [[ $TARGET == "dnsmasq-newest" ]] || [[ $TARGET == "all" ]]
+        then
+
+            cd $PFBENCH
+            mkdir results-dnsmasq-newest
+
+            if [[ $FUZZER == "aflnet" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh dnsmasq-newest $NUM_CONTAINERS results-dnsmasq-newest aflnet out-dnsmasq-newest-aflnet "-P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t ${TEST_TIMEOUT}+" $TIMEOUT $SKIPCOUNT &
+            fi
+
+            if [[ $FUZZER == "chatafl" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh dnsmasq-newest $NUM_CONTAINERS results-dnsmasq-newest chatafl out-dnsmasq-newest-chatafl "-P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t ${TEST_TIMEOUT}+" $TIMEOUT $SKIPCOUNT &
+            fi
+
+            if [[ $FUZZER == "stellafuzz" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh dnsmasq-newest $NUM_CONTAINERS results-dnsmasq-newest stellafuzz out-dnsmasq-newest-stellafuzz "-P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t ${TEST_TIMEOUT}+" $TIMEOUT $SKIPCOUNT &
+            fi
+
+        fi
+
+##### SIP-newest #####
+
+        if [[ $TARGET == "kamailio-newest" ]] || [[ $TARGET == "all" ]]
+        then
+
+            cd $PFBENCH
+            mkdir results-kamailio-newest
+
+            if [[ $FUZZER == "aflnet" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh kamailio-newest $NUM_CONTAINERS results-kamailio-newest aflnet out-kamailio-newest-aflnet "-m none -P SIP -l 5061 -D 50000 -q 3 -s 3 -E -K -t ${TEST_TIMEOUT}+" $TIMEOUT $SKIPCOUNT &
+            fi
+            
+            if [[ $FUZZER == "chatafl" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh kamailio-newest $NUM_CONTAINERS results-kamailio-newest chatafl out-kamailio-newest-chatafl "-m none -P SIP -l 5061 -D 50000 -q 3 -s 3 -E -K -t ${TEST_TIMEOUT}+" $TIMEOUT $SKIPCOUNT &
+            fi
+
+            if [[ $FUZZER == "stellafuzz" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh kamailio-newest $NUM_CONTAINERS results-kamailio-newest stellafuzz out-kamailio-newest-stellafuzz "-m none -P SIP -l 5061 -D 50000 -q 3 -s 3 -E -K -t ${TEST_TIMEOUT}+" $TIMEOUT $SKIPCOUNT &
+            fi
+
+        fi
+
+##### FTP-newest #####
+
+        if [[ $TARGET == "proftpd-newest" ]] || [[ $TARGET == "all" ]]
+        then
+
+            cd $PFBENCH
+            mkdir results-proftpd-newest
+
+            if [[ $FUZZER == "aflnet" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh proftpd-newest $NUM_CONTAINERS results-proftpd-newest aflnet out-proftpd-newest-aflnet "-m none -P FTP -D 10000 -q 3 -s 3 -E -K -t ${TEST_TIMEOUT}+" $TIMEOUT $SKIPCOUNT &
+            fi
+
+            if [[ $FUZZER == "chatafl" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh proftpd-newest $NUM_CONTAINERS results-proftpd-newest chatafl out-proftpd-newest-chatafl "-m none -P FTP -D 10000 -q 3 -s 3 -E -K -t ${TEST_TIMEOUT}+" $TIMEOUT $SKIPCOUNT &
+            fi
+
+            if [[ $FUZZER == "stellafuzz" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh proftpd-newest $NUM_CONTAINERS results-proftpd-newest stellafuzz out-proftpd-newest-stellafuzz "-P FTP -D 10000 -q 3 -s 3 -E -K -m none -t ${TEST_TIMEOUT}+" $TIMEOUT $SKIPCOUNT &
+            fi
+
+        fi
+
         if [[ $TARGET == "all" ]]
         then
             # Quit loop -- all fuzzers and targets have already been executed

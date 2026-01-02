@@ -4,8 +4,20 @@
 export MAKE_OPT="-j32"
 
 cd $PFBENCH
+cd subjects/DNS/Dnsmasq-newest
+docker build . -t dnsmasq-newest --build-arg MAKE_OPT $NO_CACHE
+
+cd $PFBENCH
 cd subjects/RTSP/Live555-newest
 docker build . -t live555-newest --build-arg MAKE_OPT $NO_CACHE
+
+cd $PFBENCH
+cd subjects/FTP/ProFTPD-newest
+docker build . -t proftpd-newest --build-arg MAKE_OPT $NO_CACHE
+
+cd $PFBENCH
+cd subjects/SIP/Kamailio-newest
+docker build . -t kamailio-newest --build-arg MAKE_OPT $NO_CACHE
 
 # cd $PFBENCH
 # cd subjects/FTP/LightFTP
