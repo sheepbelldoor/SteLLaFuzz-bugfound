@@ -377,6 +377,31 @@ do
 
         fi
 
+##### RTSP-newest #####
+
+        if [[ $TARGET == "live555-newest" ]] || [[ $TARGET == "all" ]]
+        then
+
+            cd $PFBENCH
+            mkdir results-live555-newest
+
+            if [[ $FUZZER == "aflnet" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh live555-newest $NUM_CONTAINERS results-live555-newest aflnet out-live555-newest-aflnet "-P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none" $TIMEOUT $SKIPCOUNT &
+            fi
+
+            if [[ $FUZZER == "chatafl" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh live555-newest $NUM_CONTAINERS results-live555-newest chatafl out-live555-newest-chatafl "-P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none" $TIMEOUT $SKIPCOUNT &
+            fi
+
+            if [[ $FUZZER == "stellafuzz" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh live555-newest $NUM_CONTAINERS results-live555-newest stellafuzz out-live555-newest-stellafuzz "-P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none" $TIMEOUT $SKIPCOUNT &
+            fi
+
+        fi
+
         if [[ $TARGET == "all" ]]
         then
             # Quit loop -- all fuzzers and targets have already been executed

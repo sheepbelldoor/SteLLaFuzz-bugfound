@@ -11,12 +11,17 @@ do
   sed -i "s/#define OPENAI_TOKEN \".*\"/#define OPENAI_TOKEN \"$KEY\"/" $x/chat-llm.h
 done
 
-for y in DICOM/Dcmtk DNS/Dnsmasq DTLS/TinyDTLS SSH/OpenSSH TLS/OpenSSL;
-do
-  sed -i "s/ENV OPENAI_API_KEY=\".*\"/ENV OPENAI_API_KEY=\"$KEY\"/" benchmark/subjects/$y/Dockerfile
-done
+# for y in DICOM/Dcmtk DNS/Dnsmasq DTLS/TinyDTLS SSH/OpenSSH TLS/OpenSSL;
+# do
+#   sed -i "s/ENV OPENAI_API_KEY=\".*\"/ENV OPENAI_API_KEY=\"$KEY\"/" benchmark/subjects/$y/Dockerfile
+# done
 
-for y in DAAP/forked-daapd FTP/BFTPD FTP/LightFTP FTP/ProFTPD FTP/PureFTPD HTTP/Lighttpd1 RTSP/Live555 SIP/Kamailio SMTP/Exim;
+# for y in DAAP/forked-daapd FTP/BFTPD FTP/LightFTP FTP/ProFTPD FTP/PureFTPD HTTP/Lighttpd1 RTSP/Live555 SIP/Kamailio SMTP/Exim;
+# do
+#   sed -i "s/ENV OPENAI_API_KEY=\".*\"/ENV OPENAI_API_KEY=\"$KEY\"/" benchmark/subjects/$y/Dockerfile
+# done
+
+for y in RTSP/Live555-newest;
 do
   sed -i "s/ENV OPENAI_API_KEY=\".*\"/ENV OPENAI_API_KEY=\"$KEY\"/" benchmark/subjects/$y/Dockerfile
 done
