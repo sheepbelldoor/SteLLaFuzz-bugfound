@@ -1,16 +1,12 @@
--m none -P FTP -D 10000 -q 3 -s 3 -E -K -t ${TEST_TIMEOUT}+
-
 # aflnet
-timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -d -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -d -i /home/ubuntu/experiments/in-ftp -o proftpd-newest-results -x /home/ubuntu/experiments/ftp.dict -N tcp://127.0.0.1/21 -m none -P FTP -D 10000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/clean /home/ubuntu/experiments/proftpd/proftpd -n -c /home/ubuntu/experiments/basic.conf -X
 
 # stellafuzz
-timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -d -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
+timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -d -i /home/ubuntu/experiments/in-ftp -o proftpd-newest-results -x /home/ubuntu/experiments/ftp.dict -N tcp://127.0.0.1/21 -m none -P FTP -D 10000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/clean /home/ubuntu/experiments/proftpd/proftpd -n -c /home/ubuntu/experiments/basic.conf -X
 
 # Master
-timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -M Master -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
+timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -M Master -i /home/ubuntu/experiments/in-ftp -o proftpd-newest-results -x /home/ubuntu/experiments/ftp.dict -N tcp://127.0.0.1/21 -m none -P FTP -D 10000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/clean /home/ubuntu/experiments/proftpd/proftpd -n -c /home/ubuntu/experiments/basic.conf -X
 # Slave
-timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S slave1 -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
-timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S slave2 -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
-timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S slave3 -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
-
-
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave1 -i /home/ubuntu/experiments/in-ftp -o proftpd-newest-results -x /home/ubuntu/experiments/ftp.dict -N tcp://127.0.0.1/21 -m none -P FTP -D 10000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/clean /home/ubuntu/experiments/proftpd/proftpd -n -c /home/ubuntu/experiments/basic.conf -X
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave2 -i /home/ubuntu/experiments/in-ftp -o proftpd-newest-results -x /home/ubuntu/experiments/ftp.dict -N tcp://127.0.0.1/21 -m none -P FTP -D 10000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/clean /home/ubuntu/experiments/proftpd/proftpd -n -c /home/ubuntu/experiments/basic.conf -X
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave3 -i /home/ubuntu/experiments/in-ftp -o proftpd-newest-results -x /home/ubuntu/experiments/ftp.dict -N tcp://127.0.0.1/21 -m none -P FTP -D 10000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/clean /home/ubuntu/experiments/proftpd/proftpd -n -c /home/ubuntu/experiments/basic.conf -X
