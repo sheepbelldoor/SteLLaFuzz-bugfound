@@ -89,7 +89,7 @@ ENV ASAN_OPTIONS='abort_on_error=1:symbolize=0:detect_leaks=0:detect_stack_use_a
 RUN cd $WORKDIR && \
     git clone https://github.com/kamailio/kamailio.git && \
     cd kamailio && \
-    git checkout a2209018fb03d && \
+    git checkout cbffe7b868e8b450293c2977b3ef1df61d6bf1bc && \
     patch -p1 < $WORKDIR/kamailio.patch && \
     CC=afl-clang-fast make MEMPKG=sys cfg && \
     AFL_USE_ASAN=1 CC=afl-clang-fast make all $MAKE_OPT
@@ -98,7 +98,7 @@ RUN cd $WORKDIR && \
 RUN cd $WORKDIR && \
     git clone https://github.com/pjsip/pjproject.git && \
     cd pjproject && \
-    git checkout 87cd4a && \
+    git checkout 9ffdbd7f0be340b306585b95b69c9f70c65e4389 && \
     patch -p1 < $WORKDIR/pjsip.patch && \
     ./configure && \
     make dep && make clean && make $MAKE_OPT
@@ -107,12 +107,12 @@ RUN cd $WORKDIR && \
 RUN cd $WORKDIR && \
     git clone https://github.com/kamailio/kamailio.git kamailio-gcov && \
     cd kamailio-gcov && \
-    git checkout a2209018fb03d && \
+    git checkout cbffe7b868e8b450293c2977b3ef1df61d6bf1bc && \
     patch -p1 < $WORKDIR/kamailio.patch && \
     make CC_EXTRA_OPTS="-fprofile-arcs -ftest-coverage" LD_EXTRA_OPTS="-fprofile-arcs -ftest-coverage" MEMPKG=sys cfg && \
     make CC_EXTRA_OPTS="-fprofile-arcs -ftest-coverage" LD_EXTRA_OPTS="-fprofile-arcs -ftest-coverage" all $MAKE_OPT
 
-    COPY --chown=ubuntu:ubuntu in-sip ${WORKDIR}/in-sip
+COPY --chown=ubuntu:ubuntu in-sip ${WORKDIR}/in-sip
 COPY --chown=ubuntu:ubuntu cov_script.sh ${WORKDIR}/cov_script
 COPY --chown=ubuntu:ubuntu run.sh ${WORKDIR}/run
 COPY --chown=ubuntu:ubuntu run_pjsip.sh ${WORKDIR}/run_pjsip
