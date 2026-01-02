@@ -1,0 +1,12 @@
+# aflnet
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -d -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
+
+# stellafuzz
+timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -d -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
+
+# Master
+timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -M Master -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
+# Slave
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S slave1 -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S slave2 -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S slave3 -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
