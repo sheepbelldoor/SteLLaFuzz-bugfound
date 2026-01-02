@@ -85,7 +85,7 @@ ENV ASAN_OPTIONS='abort_on_error=1:symbolize=0:detect_leaks=0:detect_stack_use_a
 RUN cd $WORKDIR && \
     git clone http://thekelleys.org.uk/git/dnsmasq.git && \
     cd dnsmasq && \
-    git checkout v2.73rc6 && \
+    git checkout d8f66f4fda02ca50616f428d9c161c8ca1a0cb70 && \
     patch -p1 < ${WORKDIR}/dnsmasq.patch && \
     AFL_USE_ASAN=1 CC=afl-clang-fast make $MAKE_OPT
 
@@ -93,7 +93,7 @@ RUN cd $WORKDIR && \
 RUN cd $WORKDIR && \
     git clone http://thekelleys.org.uk/git/dnsmasq.git dnsmasq-gcov && \
     cd dnsmasq-gcov && \
-    git checkout v2.73rc6 && \
+    git checkout d8f66f4fda02ca50616f428d9c161c8ca1a0cb70 && \
     patch -p1 < ${WORKDIR}/dnsmasq.patch && \
     make CFLAGS="-fprofile-arcs -ftest-coverage" LDFLAGS="-fprofile-arcs -ftest-coverage" $MAKE_OPT
 
