@@ -1,12 +1,15 @@
 # aflnet
-timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -d -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
+cd /home/ubuntu/experiments/kamailio
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -d -i /home/ubuntu/experiments/in-sip -o kamailio-newest-results -N udp://127.0.0.1/5060 -m none -P SIP -l 5061 -D 50000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/run_pjsip ./src/kamailio -f /home/ubuntu/experiments/kamailio-basic.cfg -L src/modules -Y runtime_dir -n 1 -D -E
 
 # stellafuzz
-timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -d -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
+timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -d -i /home/ubuntu/experiments/in-sip -o kamailio-newest-results -N udp://127.0.0.1/5060 -m none -P SIP -l 5061 -D 50000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/run_pjsip ./src/kamailio -f /home/ubuntu/experiments/kamailio-basic.cfg -L src/modules -Y runtime_dir -n 1 -D -E
 
 # Master
-timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -M Master -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
+timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -M Master -i /home/ubuntu/experiments/in-sip -o kamailio-newest-results -N udp://127.0.0.1/5060 -m none -P SIP -l 5061 -D 50000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/run_pjsip ./src/kamailio -f /home/ubuntu/experiments/kamailio-basic.cfg -L src/modules -Y runtime_dir -n 1 -D -E
 # Slave
-timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S slave1 -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
-timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S slave2 -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
-timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S slave3 -i /home/ubuntu/experiments/in-rtsp -x /home/ubuntu/experiments/rtsp.dict -o live555-results -N tcp://127.0.0.1/8554 -P RTSP -D 10000 -q 3 -s 3 -E -K -R -m none /home/ubuntu/experiments/live/testProgs/testOnDemandRTSPServer 8554
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave1 -i /home/ubuntu/experiments/in-sip -o kamailio-newest-results -N udp://127.0.0.1/5060 -m none -P SIP -l 5061 -D 50000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/run_pjsip ./src/kamailio -f /home/ubuntu/experiments/kamailio-basic.cfg -L src/modules -Y runtime_dir -n 1 -D -E
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave2 -i /home/ubuntu/experiments/in-sip -o kamailio-newest-results -N udp://127.0.0.1/5060 -m none -P SIP -l 5061 -D 50000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/run_pjsip ./src/kamailio -f /home/ubuntu/experiments/kamailio-basic.cfg -L src/modules -Y runtime_dir -n 1 -D -E
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave3 -i /home/ubuntu/experiments/in-sip -o kamailio-newest-results -N udp://127.0.0.1/5060 -m none -P SIP -l 5061 -D 50000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/run_pjsip ./src/kamailio -f /home/ubuntu/experiments/kamailio-basic.cfg -L src/modules -Y runtime_dir -n 1 -D -E
+
+
