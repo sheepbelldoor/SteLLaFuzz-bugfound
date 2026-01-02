@@ -11,5 +11,3 @@ timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -M Master
 timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave1 -i /home/ubuntu/experiments/in-sip -o kamailio-newest-results -N udp://127.0.0.1/5060 -m none -P SIP -l 5061 -D 50000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/run_pjsip ./src/kamailio -f /home/ubuntu/experiments/kamailio-basic.cfg -L src/modules -Y runtime_dir -n 1 -D -E
 timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave2 -i /home/ubuntu/experiments/in-sip -o kamailio-newest-results -N udp://127.0.0.1/5060 -m none -P SIP -l 5061 -D 50000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/run_pjsip ./src/kamailio -f /home/ubuntu/experiments/kamailio-basic.cfg -L src/modules -Y runtime_dir -n 1 -D -E
 timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave3 -i /home/ubuntu/experiments/in-sip -o kamailio-newest-results -N udp://127.0.0.1/5060 -m none -P SIP -l 5061 -D 50000 -q 3 -s 3 -E -K -t 5000+ -c /home/ubuntu/experiments/run_pjsip ./src/kamailio -f /home/ubuntu/experiments/kamailio-basic.cfg -L src/modules -Y runtime_dir -n 1 -D -E
-
-
