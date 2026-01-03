@@ -21,10 +21,15 @@ done
 #   sed -i "s/ENV OPENAI_API_KEY=\".*\"/ENV OPENAI_API_KEY=\"$KEY\"/" benchmark/subjects/$y/Dockerfile
 # done
 
-for y in DNS/Dnsmasq-newest RTSP/Live555-newest FTP/ProFTPD-newest SIP/Kamailio-newest;
-do
-  sed -i "s/ENV OPENAI_API_KEY=\".*\"/ENV OPENAI_API_KEY=\"$KEY\"/" benchmark/subjects/$y/Dockerfile
-done
+# for y in DNS/Dnsmasq-newest RTSP/Live555-newest FTP/ProFTPD-newest SIP/Kamailio-newest;
+# do
+#   sed -i "s/ENV OPENAI_API_KEY=\".*\"/ENV OPENAI_API_KEY=\"$KEY\"/" benchmark/subjects/$y/Dockerfile
+# done
+
+# for y in DNS/Unbound;
+# do
+#   sed -i "s/ENV OPENAI_API_KEY=\".*\"/ENV OPENAI_API_KEY=\"$KEY\"/" benchmark/subjects/$y/Dockerfile
+# done
 
 # Copy the different versions of ChatAFL to the benchmark directories
 for subject in ./benchmark/subjects/*/*; do

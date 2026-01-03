@@ -427,6 +427,29 @@ do
 
         fi
 
+        if [[ $TARGET == "unbound" ]] || [[ $TARGET == "all" ]]
+        then
+
+            cd $PFBENCH
+            mkdir results-unbound
+
+            if [[ $FUZZER == "aflnet" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh unbound $NUM_CONTAINERS results-unbound aflnet out-unbound-aflnet "-P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t ${TEST_TIMEOUT}+" $TIMEOUT $SKIPCOUNT &
+            fi
+
+            if [[ $FUZZER == "chatafl" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh unbound $NUM_CONTAINERS results-unbound chatafl out-unbound-chatafl "-P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t ${TEST_TIMEOUT}+" $TIMEOUT $SKIPCOUNT &
+            fi
+
+            if [[ $FUZZER == "stellafuzz" ]] || [[ $FUZZER == "all" ]]
+            then
+                profuzzbench_exec_common.sh unbound $NUM_CONTAINERS results-unbound stellafuzz out-unbound-stellafuzz "-P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t ${TEST_TIMEOUT}+" $TIMEOUT $SKIPCOUNT &
+            fi
+
+        fi
+
 ##### SIP-newest #####
 
         if [[ $TARGET == "kamailio-newest" ]] || [[ $TARGET == "all" ]]
