@@ -1,12 +1,12 @@
 # aflnet
-timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -d -i /home/ubuntu/experiments/in-dns -o dnsmasq-newest-results -N udp://127.0.0.1/5353 -P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t 5000+ /home/ubuntu/experiments/unbound/unbound -c /home/ubuntu/experiments/unbound.conf -p
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -d -i /home/ubuntu/experiments/in-dns -o unbound-newest-results -N udp://127.0.0.1/5353 -P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t 5000+ /home/ubuntu/experiments/unbound/unbound -c /home/ubuntu/experiments/unbound.conf -p
 
 # stellafuzz
-timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -d -i /home/ubuntu/experiments/in-dns -o dnsmasq-newest-results -N udp://127.0.0.1/5353 -P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t 5000+ /home/ubuntu/experiments/unbound/unbound -c /home/ubuntu/experiments/unbound.conf -p
+timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -d -i /home/ubuntu/experiments/in-dns -o unbound-newest-results -N udp://127.0.0.1/5353 -P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t 5000+ /home/ubuntu/experiments/unbound/unbound -c /home/ubuntu/experiments/unbound.conf -p
 
 # Master
-timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -M Master -i /home/ubuntu/experiments/in-dns -o dnsmasq-newest-results -N udp://127.0.0.1/5353 -P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t 5000+ /home/ubuntu/experiments/unbound/unbound -c /home/ubuntu/experiments/unbound.conf -p
+timeout -k 2s --preserve-status 86400 /home/ubuntu/stellafuzz/afl-fuzz -M Master -i /home/ubuntu/experiments/in-dns -o unbound-newest-results -N udp://127.0.0.1/5353 -P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t 5000+ /home/ubuntu/experiments/unbound/unbound -c /home/ubuntu/experiments/unbound.conf -p
 # Slave
-timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave1 -i /home/ubuntu/experiments/in-dns -o dnsmasq-newest-results -N udp://127.0.0.1/5353 -P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t 5000+ /home/ubuntu/experiments/unbound/unbound -c /home/ubuntu/experiments/unbound.conf -p
-timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave2 -i /home/ubuntu/experiments/in-dns -o dnsmasq-newest-results -N udp://127.0.0.1/5353 -P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t 5000+ /home/ubuntu/experiments/unbound/unbound -c /home/ubuntu/experiments/unbound.conf -p
-timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave3 -i /home/ubuntu/experiments/in-dns -o dnsmasq-newest-results -N udp://127.0.0.1/5353 -P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t 5000+ /home/ubuntu/experiments/unbound/unbound -c /home/ubuntu/experiments/unbound.conf -p
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave1 -i /home/ubuntu/experiments/in-dns -o unbound-newest-results -N udp://127.0.0.1/5353 -P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t 5000+ /home/ubuntu/experiments/unbound/unbound -c /home/ubuntu/experiments/unbound.conf -p
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave2 -i /home/ubuntu/experiments/in-dns -o unbound-newest-results -N udp://127.0.0.1/5353 -P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t 5000+ /home/ubuntu/experiments/unbound/unbound -c /home/ubuntu/experiments/unbound.conf -p
+timeout -k 2s --preserve-status 86400 /home/ubuntu/aflnet/afl-fuzz -S Slave3 -i /home/ubuntu/experiments/in-dns -o unbound-newest-results -N udp://127.0.0.1/5353 -P DNS -D 200000 -m none -q 3 -s 3 -E -K -R -t 5000+ /home/ubuntu/experiments/unbound/unbound -c /home/ubuntu/experiments/unbound.conf -p
